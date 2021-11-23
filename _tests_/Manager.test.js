@@ -11,5 +11,8 @@ describe("Manager", () => {
     expect(newManager.id).toEqual(45);
     expect(newManager.email).toEqual("zahra.mrj@gmail.com");
     expect(newManager.officeNumber).toEqual(25);
+
+    // Verifying functions working as expected
+    expect(newManager.getRole()).toEqual("Manager");
   });
 });

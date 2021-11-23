@@ -15,5 +15,10 @@ describe("Engineer", () => {
     expect(newEngineer.id).toEqual(45);
     expect(newEngineer.email).toEqual("zahra.mrj@gmail.com");
     expect(newEngineer.github).toEqual("some@github.com");
+
+    // Verifying functions working as expected
+    expect(newEngineer.getEmail()).toEqual("zahra.mrj@gmail.com");
+    expect(newEngineer.getGithub()).toEqual("some@github.com");
+    expect(newEngineer.getRole()).toEqual("Engineer");
   });
 });
