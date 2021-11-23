@@ -7,7 +7,7 @@ const Employee = require("./lib/Employee");
 // Creating function with the questions for user prompt
 
 askQuestions = () => {
-  let questions = [
+  var questions = [
     {
       type: "input",
       message: "Please enter your team Manager's name",
@@ -38,7 +38,44 @@ askQuestions = () => {
   return questions;
 };
 
+// Add a team function
+
+addEngineer = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: `Please enter your team Engineer's name`,
+        name: "name",
+      },
+      {
+        type: "input",
+        message: `Please enter your team Engineer's ID`,
+        name: "id",
+      },
+      {
+        type: "input",
+        message: `Please enter your team Engineer's email`,
+        name: "email",
+      },
+      {
+        type: "input",
+        message: `Please enter your team Engineer's github`,
+        name: "github",
+      },
+      {
+        type: "list",
+        message: "Would you like to add another team member?",
+        choices: ["Add Engineer", "Add Intern", "Finish Building a Team"],
+        name: "employees",
+      },
+    ])
+    .then((response) => response);
+};
+
 // Promting questions to create Manager Role
-inquirer.prompt(askQuestions()).then((response) => console.log(response));
+inquirer.prompt(askQuestions()).then((response) => {
+  response.employees === "Add Engineer" ? addEngineer() : console.log(response);
+});
 
 // Manager();
