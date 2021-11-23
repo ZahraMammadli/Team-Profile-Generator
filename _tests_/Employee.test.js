@@ -1,7 +1,7 @@
 const Employee = require("../lib/Employee");
 
 describe("Employee", () => {
-  // Test for all use cases when initializing a new Manager object
+  // Test for all use cases when initializing a new Employee object
   it("Initialization", () => {
     const newEmployee = new Employee("Zahra", 45, "zahra.mrj@gmail.com");
 
@@ -11,6 +11,8 @@ describe("Employee", () => {
     expect(newEmployee.email).toEqual("zahra.mrj@gmail.com");
 
     // Verifying functions working as expected
+
+    expect(newEmployee.getId()).toEqual(45);
     expect(newEmployee.getRole()).toEqual("Employee");
     expect(newEmployee.getEmail()).toEqual("zahra.mrj@gmail.com");
     expect(newEmployee.getId()).toEqual(45);

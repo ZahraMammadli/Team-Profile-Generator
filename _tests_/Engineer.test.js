@@ -17,6 +17,7 @@ describe("Engineer", () => {
     expect(newEngineer.github).toEqual("some@github.com");
 
     // Verifying functions working as expected
+    expect(newEngineer.getId()).toEqual(45);
     expect(newEngineer.getEmail()).toEqual("zahra.mrj@gmail.com");
     expect(newEngineer.getGithub()).toEqual("some@github.com");
     expect(newEngineer.getRole()).toEqual("Engineer");
