@@ -11,9 +11,9 @@ describe("Engineer", () => {
     );
 
     // Verifying new objext has the correct properties
-    expect(Engineer.name).toEqual("Zahra");
-    expect(Engineer.id).toEqual(45);
-    expect(Engineer.email).toEqual("zahra.mrj@gmail.com");
-    expect(Engineer.github).toEqual("some@github.com");
+    expect(newEngineer.name).toEqual("Zahra");
+    expect(newEngineer.id).toEqual(45);
+    expect(newEngineer.email).toEqual("zahra.mrj@gmail.com");
+    expect(newEngineer.github).toEqual("some@github.com");
   });
 });
