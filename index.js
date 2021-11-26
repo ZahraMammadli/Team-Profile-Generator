@@ -1,94 +1,194 @@
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
-const ListPrompt = require("inquirer/lib/prompts/list");
-const Employee = require("./lib/Employee");
+const Intern = require("./lib/Intern");
 
-// Creating function with the questions for user prompt
-const employees = [];
+const team = [];
 
-questionsList = () => {
-  var questions = [
-    {
-      type: "input",
-      message: "Please enter your team Manager's name",
-      name: "name",
-    },
-    // {
-    //   type: "input",
-    //   message: "Please enter your Manager's ID",
-    //   name: "id",
-    // },
-    // {
-    //   type: "input",
-    //   message: "Please enter your Manager's email",
-    //   name: "email",
-    // },
-    // {
-    //   type: "input",
-    //   message: "Please enter your Manager's office number",
-    //   name: "officeNumber",
-    // },
-    // {
-    //   type: "list",
-    //   message: "Would you like to add a team member?",
-    //   choices: ["Add Engineer", "Add Intern", "Finish Building a Team"],
-    //   name: "employees",
-    // },
-  ];
-  return questions;
-};
+// Questions list for Manager
 
-// Add a team function
-const employees = [];
-addEngineer = () => {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: `Please enter your team Engineer's name`,
-        name: "name",
-      },
-      //   {
-      //     type: "input",
-      //     message: `Please enter your team Engineer's ID`,
-      //     name: "id",
-      //   },
-      //   {
-      //     type: "input",
-      //     message: `Please enter your team Engineer's email`,
-      //     name: "email",
-      //   },
-      //   {
-      //     type: "input",
-      //     message: `Please enter your team Engineer's github`,
-      //     name: "github",
-      //   },
-      //   {
-      //     type: "list",
-      //     message: "Would you like to add another team member?",
-      //     choices: ["Add Engineer", "Add Intern", "Finish Building a Team"],
-      //     name: "employees",
-      //   },
-    ])
-    .then((response) => {
-      employees.push(response);
-      console.log("1", engineer);
-      if (response.name != "Bob") {
-        addEmployee();
-      } else {
-        console.log("Generate HTML with this array", engineer);
+var managerQuestions = [
+  {
+    type: "input",
+    message: "Please enter your name",
+    name: "name",
+    validate(answer) {
+      if (!answer) {
+        return "Please, fill your name!";
       }
-    });
+      return true;
+    },
+  },
+  {
+    type: "input",
+    message: "Please enter your ID",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "Please enter your email",
+    name: "email",
+    validate: (answer) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(answer)) {
+        return "You have to provide a valid email address!";
+      }
+      return true;
+    },
+  },
+  {
+    type: "input",
+    message: "Please enter your office number",
+    name: "officeNumber",
+  },
+  {
+    type: "list",
+    message: "Would you like to add a team member?",
+    choices: ["Add Engineer", "Add Intern", "Finish Building a Team"],
+    name: "employee",
+  },
+];
+
+//  Fucntion to add Engineer
+
+var engineerQuestions = [
+  {
+    type: "input",
+    message: "Please enter your name",
+    name: "name",
+    validate(answer) {
+      if (!answer) {
+        return "Please, fill your name!";
+      }
+      return true;
+    },
+  },
+  {
+    type: "input",
+    message: "Please enter your ID",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "Please enter your email",
+    name: "email",
+    validate: (answer) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(answer)) {
+        return "You have to provide a valid email address!";
+      }
+      return true;
+    },
+  },
+  {
+    type: "input",
+    message: `Please enter your github`,
+    name: "github",
+  },
+  {
+    type: "list",
+    message: "Would you like to add another team member?",
+    choices: ["Add Engineer", "Add Intern", "Finish Building a Team"],
+    name: "employee",
+  },
+];
+
+var internQuestions = [
+  {
+    type: "input",
+    message: "Please enter your name",
+    name: "name",
+    validate(answer) {
+      if (!answer) {
+        return "Please, fill your name!";
+      }
+      return true;
+    },
+  },
+  {
+    type: "input",
+    message: "Please enter your ID",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "Please enter your email",
+    name: "email",
+    validate: (answer) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(answer)) {
+        return "You have to provide a valid email address!";
+      }
+      return true;
+    },
+  },
+  {
+    type: "school",
+    message: `Please enter your school name`,
+    name: "school",
+  },
+  {
+    type: "list",
+    message: "Would you like to add another team member?",
+    choices: ["Engineer", "Intern", "Finish"],
+    name: "employee",
+  },
+];
+
+// Async function to promt questions
+async function promtTeam() {
+  let answers = "";
+  let answers = await inquirer.prompt(managerQuestions).then((answers) => {
+    let newMngr;
+    newMngr = new Manager(
+      answers.name,
+      answers.id,
+      answers.email,
+      answers.officeNumber
+    );
+    team.push(newMngr);
+    console.log(newMngr);
+    let answers1 = "";
+    if (answers.employees === "Engineer") {
+      answers1 = await inquirer
+        .prompt(engineerQuestions)
+        .then((answers) => {
+          let newEngineer;
+          newEngineer = new Engineer(
+            answers.name,
+            answers.id,
+            answers.email,
+            answers.github
+          );
+          team.push(newEngineer);
+          console.log(newEngineer);
+        })
+        .catch((err) => console.error(err));
+    } else if (answers.employees === "Intern") {
+      answers1 = await inquirer
+        .prompt(internQuestions)
+        .then((answers) => {
+          let newIntern;
+          newIntern = new Intern(
+            answers.name,
+            answers.id,
+            answers.email,
+            answers.school
+          );
+          team.push(newIntern);
+          console.log(newIntern);
+        })
+        .catch((err) => console.error(err));
+    } else {
+      generateHtml();
+    }
+  });
+}
+
+//  Function to build team html
+
+promtTeam();
+
+generateHtml = () => {
+  console.log("HTML generated!");
 };
-
-// Promting questions to create Manager Role
-inquirer.prompt(questionsList()).then((response) => {
-  response.employees === "Add Engineer" ? addEngineer() : console.log(response);
-  console.log("2", engineer);
-});
-
-addEngineer();
-// console.log(engineer);
-
-// Manager();
