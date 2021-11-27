@@ -2,8 +2,15 @@ const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const fs = require("fs");
+const path = require("path");
+
+const dist_dir = path.resolve(__dirname, "dist");
+const dist_path = path.resolve(dist_dir, "index.html");
+const render = require("./lib/cardsRenderer");
 
 const team = [];
+
 // Questions list for Manager
 
 var managerQuestions = [
@@ -119,18 +126,21 @@ var internQuestions = [
 
 // Promt function to add employees
 
-inquirer.prompt(managerQuestions).then((answers) => {
-  let newMngr;
-  newMngr = new Manager(
-    answers.name,
-    answers.id,
-    answers.email,
-    answers.officeNumber
-  );
-  team.push(newMngr);
-  console.log(newMngr);
-  addEmployeeYesNo();
-});
+const main = () => {
+  inquirer.prompt(managerQuestions).then((answers) => {
+    let newMngr;
+    newMngr = new Manager(
+      answers.name,
+      answers.id,
+      answers.email,
+      answers.officeNumber
+    );
+    team.push(newMngr);
+    // console.log(newMngr);
+    console.log(team);
+    addEmployeeYesNo();
+  });
+};
 
 const addEmployeeYesNo = () => {
   inquirer
@@ -145,7 +155,7 @@ const addEmployeeYesNo = () => {
       if (answers.employee != "Finish") {
         addEmployee(answers.employee);
       } else {
-        generateHtml();
+        generateHtml(team);
       }
     });
 };
@@ -156,24 +166,23 @@ addEmployee = (role) => {
   inquirer
     .prompt(role === "Engineer" ? engineerQuestions : internQuestions)
     .then((answers) => {
-      let employee;
       if (role === "Engineer") {
-        employee = new Engineer(
+        const engineers = new Engineer(
           answers.name,
           answers.id,
           answers.email,
           answers.github
         );
+        team.push(engineers);
       } else {
-        employee = new Intern(
+        const interns = new Intern(
           answers.name,
           answers.id,
           answers.email,
           answers.school
         );
+        team.push(interns);
       }
-      team.push(employee);
-      console.log(employee);
       addEmployeeYesNo();
     })
     .catch((err) => console.error(err));
@@ -181,6 +190,11 @@ addEmployee = (role) => {
 
 //  Function to build team html
 
-generateHtml = () => {
-  console.log("HTML generated!");
+const generateHtml = () => {
+  if (!fs.existsSync(dist_dir)) {
+    fs.mkdirSync(dist_dir);
+  }
+  fs.writeFileSync(dist_path, render(team), "UTF-8");
 };
+
+main();
