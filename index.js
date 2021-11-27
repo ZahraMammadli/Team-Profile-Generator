@@ -40,12 +40,6 @@ var managerQuestions = [
     message: "Please enter your office number",
     name: "officeNumber",
   },
-  {
-    type: "list",
-    message: "Would you like to add a team member?",
-    choices: ["Engineer", "Intern", "Finish"],
-    name: "employee",
-  },
 ];
 
 // Questions list for Engineer
@@ -84,12 +78,6 @@ var engineerQuestions = [
     message: `Please enter your github`,
     name: "github",
   },
-  {
-    type: "list",
-    message: "Would you like to add another team member?",
-    choices: ["Engineer", "Intern", "Finish"],
-    name: "employee",
-  },
 ];
 // Questions list for Intern
 
@@ -127,15 +115,9 @@ var internQuestions = [
     message: `Please enter your school name`,
     name: "school",
   },
-  {
-    type: "list",
-    message: "Would you like to add another team member?",
-    choices: ["Engineer", "Intern", "Finish"],
-    name: "employee",
-  },
 ];
 
-// Main function
+// Promt function to add employees
 
 inquirer.prompt(managerQuestions).then((answers) => {
   let newMngr;
@@ -147,12 +129,26 @@ inquirer.prompt(managerQuestions).then((answers) => {
   );
   team.push(newMngr);
   console.log(newMngr);
-  if (answers.employee != "Finish") {
-    addEmployee(answers.employee);
-  } else {
-    generateHtml();
-  }
+  addEmployeeYesNo();
 });
+
+const addEmployeeYesNo = () => {
+  inquirer
+    .prompt({
+      type: "list",
+      message: "Would you like to add another team member?",
+      choices: ["Engineer", "Intern", "Finish"],
+      name: "employee",
+    })
+    .then((answers) => {
+      //If want to add an exployee
+      if (answers.employee != "Finish") {
+        addEmployee(answers.employee);
+      } else {
+        generateHtml();
+      }
+    });
+};
 
 // Functions to add employees
 
@@ -160,25 +156,25 @@ addEmployee = (role) => {
   inquirer
     .prompt(role === "Engineer" ? engineerQuestions : internQuestions)
     .then((answers) => {
+      let employee;
       if (role === "Engineer") {
-        let newEngineer;
-        newEngineer = new Engineer(
+        employee = new Engineer(
           answers.name,
           answers.id,
           answers.email,
           answers.github
         );
-        team.push(newEngineer);
       } else {
-        let newIntern;
-        newIntern = new Intern(
+        employee = new Intern(
           answers.name,
           answers.id,
           answers.email,
           answers.school
         );
-        team.push(newIntern);
       }
+      team.push(employee);
+      console.log(employee);
+      addEmployeeYesNo();
     })
     .catch((err) => console.error(err));
 };
@@ -188,5 +184,3 @@ addEmployee = (role) => {
 generateHtml = () => {
   console.log("HTML generated!");
 };
-
-//  ---------------------------------------------------------------------------
