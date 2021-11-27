@@ -5,11 +5,17 @@
     alt="Manager"
   />
   <div class="card-body">
-    <h5 class="card-title">Jared Manager</h5>
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <h5 class="card-title">{{Name}}</h5>
+    <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>{{ role }}</h3>
+
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item">ID: {{ id }}</li>
+        <li class="list-group-item">
+          Email: <a href="mailto:{{ email }}">{{ email }}</a>
+        </li>
+        <li class="list-group-item">Office number: {{ officeNumber }}</li>
+      </ul>
+    </div>
   </div>
 </div>
