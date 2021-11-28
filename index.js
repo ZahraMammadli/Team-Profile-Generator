@@ -195,6 +195,7 @@ const generateHtml = () => {
     fs.mkdirSync(dist_dir);
   }
   fs.writeFileSync(dist_path, render(team), "UTF-8");
+  console.log("HTML generated!");
 };
 
 main();
