@@ -1,8 +1,7 @@
 # Team-Profile-Generator
 ##Description
-   This project is a Node.js command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person.It ease up the process of creating html file that reflects team members and their key information
+ This project is a Node.js command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person.It ease up the process of creating html file that reflects team members and their key information
    
-#Table of content
 
  ##Table of Content
     - [Installation](#Installation)
